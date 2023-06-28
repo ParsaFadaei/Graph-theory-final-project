@@ -6,6 +6,7 @@ import re
 import pandas as pd
 from mpl_toolkits.mplot3d import Axes3D
 
+
 def show3dSpring(G):
     pos = nx.spring_layout(G, dim=3, seed=779)
     # Extract node and edge positions from the layout
@@ -39,3 +40,33 @@ def _format_axes(ax):
     ax.set_xlabel("x")
     ax.set_ylabel("y")
     ax.set_zlabel("z")
+
+
+def getInfo(G):
+    nodeNum = nx.number_of_nodes(G)
+    print("nodes:" + str(nodeNum))
+    print("edges:" + str(nx.number_of_edges(G)))
+    minDegree = 0
+    degrees = [val for (node, val) in G.degree()]
+    for d in degrees:
+        if d > minDegree:
+            minDegree = d
+    print("min Degree:" + str(minDegree))
+    k = nx.node_connectivity(G)
+    lam = nx.edge_connectivity(G)
+    print("K:" + str(k))
+    print("lambda:" + str(lam))
+    isOC = False
+    isNS = False
+    if k == lam == minDegree:
+        isOC = True
+        print("OC:" + str(isOC))
+
+    if lam == minDegree and k >= 2 * (minDegree + 1) / 3:
+        if 4 >= minDegree == k:
+            isNS = True
+        else:
+            # check is symmetric
+            isNS = True
+
+        print("NS:" + str(isNS))
