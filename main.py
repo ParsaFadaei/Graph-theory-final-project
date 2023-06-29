@@ -20,18 +20,35 @@ import functions
 # prism3 = functions.schlegel3Prism()
 # Antiprism3 = functions.schlegel3Antiprism()
 # Twistedprism3 = functions.sclegel3TwistedPrism()
-# completeN = nx.complete_graph(8)
-# hamming = functions.hamming_binary(4)
+completeN = nx.complete_graph(8)
+# hamming = functions.hamming_binary(6)
 # functions.getInfo()
 
-# functions.show3dSpring(hamming)
-# nodePos = nx.planar_layout(hamming)
-# nodePos = nx.shell_layout(hamming)
-# nodePos = nx.spectral_layout(hamming)
-# nodePos = nx.spiral_layout(hamming)
-# nodePos = nx.onion_layers(hamming)
+G = completeN
+functions.setAllCaps(G)
+""""CALCULATING L"""
+L = float(0)
+newL = float(0)
+# L = functions.calculateLHamming(G)
+# L = functions.calculateLforSymm(G)
+# L = functions.calculateL(G)
+L = functions.calculateLmax(G)
+
+functions.remove_rnd_node(G, 0.2)
+# newL = functions.calculateLHamming(G)
+# newL = functions.calculateLforSymm(G)
+# newL = functions.calculateL(G)
+newL = functions.calculateLmax(G)
+increasePerc = functions.changePerc(newL, L)
+
+print("INCREASE Perc =", increasePerc, "%")
+
+""""SHOWING THE GRAPHS"""
+# functions.show3dSpring(G)
+# nodePos = nx.planar_layout(G)
+# nodePos = nx.shell_layout(G)
+# nodePos = nx.spectral_layout(G)
+# nodePos = nx.spiral_layout(G)
+# nodePos = nx.onion_layers(G)
 # nx.draw(hamming, nodePos)
 # plt.show()
-
-
-

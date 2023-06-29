@@ -105,6 +105,7 @@ def sclegel3TwistedPrism():
     g = nx.Graph()
     g.add_nodes_from([0, 5])
     g.add_edges_from([(0, 1), (0, 2), (1, 2), (0, 3), (0, 4), (2, 5), (2, 3), (1, 4), (1, 5), (3, 5), (3, 4), (4, 5)])
+    return g
 
 
 def ring_graph(n, k):
@@ -124,7 +125,6 @@ def hamming_binary(chromosome_len):
 
     # create all nodes
     all_nodes = range(0, 2 ** chromosome_len)
-    logging.debug(all_nodes)
     space.add_nodes_from(all_nodes)
 
     # for each node, find neighbors
@@ -137,18 +137,65 @@ def mutate_node(node, n):
     return node ^ (1 << n)
 
 
-def avgDist(d, q):
+def avgDistHamming(d, q):
     return (d * (q - 1) * (q ** (d - 1))) / (q ** d) - 1
 
 
-def chromaricNumber(G):
+def chromaticNumber(G):
     return max(nx.greedy_color(G, 'random_sequential', colors).values()) + 1
 
 
-def calculateL(G):
+def calculateLHamming(G):
     n = nx.number_of_nodes(G)
     d = nx.diameter(G)
-    q = chromaricNumber(G)
+    q = chromaticNumber(G)
     minDeg = minDegree(G)
-    avg = avgDist(d, q)
-    return (n - 1) * avg / minDeg
+    avg = avgDistHamming(d, q)
+    L = (n - 1) * avg / minDeg
+    print("L Hamming:" + str(L))
+    return float(L)
+
+
+def calculateLforSymm(G):
+    n = nx.number_of_nodes(G)
+    minDeg = minDegree(G)
+    avg = nx.average_shortest_path_length(G)
+    L = (n - 1) * avg / minDeg
+    print("L Symmetric:" + str(L))
+    return float(L)
+
+
+def setAllCaps(G):
+    nx.set_edge_attributes(G, 20.0, "capacity")
+
+
+def calculateL(G):
+    source = min(G.nodes())
+    sink = max(G.nodes())
+    # Compute the maximum flow value using the Edmonds-Karp algorithm
+    flow_value = nx.maximum_flow_value(G, source, sink)
+    print("L value (networkx): " + str(flow_value))
+    return float(flow_value)
+
+
+def calculateLmax(G):
+    source = min(G.nodes())
+    sink = max(G.nodes())
+    # Edmonds-Karp algorithm
+    flow_value = nx.maximum_flow_value(G, source, sink)
+    # Stoer-Wagner algorithm
+    cut_value, partition = nx.stoer_wagner(G)
+    # Compute the maximum flow value using the max-flow min-cut theorem
+    max_flow_value = cut_value + flow_value
+    print("Maximum flow value (mincut theorem): ", max_flow_value)
+    return float(max_flow_value)
+
+
+def remove_rnd_node(G, p=0.2):
+    for node in list(G.nodes()):
+        if random.random() < p:
+            G.remove_node(node)
+
+
+def changePerc(new_value, old_value):
+    return ((new_value - old_value) / abs(old_value)) * 100
