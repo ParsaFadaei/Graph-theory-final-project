@@ -78,6 +78,27 @@ def getInfo(G):
         print("NS:" + str(isNS))
 
 
+def isOC(G):
+    minDeg = minDegree(G)
+    k = nx.node_connectivity(G)
+    lam = nx.edge_connectivity(G)
+    if k == lam == minDeg:
+        return True
+
+def isNS(G):
+    isNS = False
+    minDeg = minDegree(G)
+    k = nx.node_connectivity(G)
+    lam = nx.edge_connectivity(G)
+    if lam == minDegree and k >= 2 * (minDeg + 1) / 3:
+        isNS = True
+        if 4 >= minDeg:
+            if minDegree != k:
+                isNS = False
+
+    return isNS
+
+
 def minDegree(G):
     minDeg = 0
     degrees = [val for (node, val) in G.degree()]
