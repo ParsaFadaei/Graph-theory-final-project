@@ -27,7 +27,8 @@ def show3dSpring(G):
 
     # Plot the edges
     for vizedge in edge_xyz:
-        ax.plot(*vizedge.T, color="tab:gray")
+        # ax.plot(*vizedge.T, color="tab:gray")
+        ax.plot(*vizedge.T)
 
     _format_axes(ax)
     fig.tight_layout()
@@ -86,6 +87,7 @@ def isOC(G):
         return True
     else:
         return False
+
 
 def isNS(G):
     isNS = False
@@ -222,3 +224,14 @@ def remove_rnd_node(G, p=0.2):
 
 def changePerc(new_value, old_value):
     return ((new_value - old_value) / abs(old_value)) * 100
+
+
+def createLayeredGraph(G, H, p=0.1):
+    U = nx.disjoint_union(G, H)
+    for i, g in enumerate(U.nodes()):
+        for j, h in enumerate(U.nodes(), len(G)):
+            if i < len(G) - 1:
+                if random.random() < p:
+                    U.add_edge(g, h, color='red')
+
+    return U
