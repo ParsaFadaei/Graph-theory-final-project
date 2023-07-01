@@ -82,6 +82,8 @@ def getInfo(G):
     lam = nx.edge_connectivity(G)
     print("K:" + str(k))
     print("lambda:" + str(lam))
+    d = nx.diameter(G)
+    print("Diameter :", d)
     isOC = False
     isNS = False
     isIso = True
@@ -146,6 +148,7 @@ def minDegree(G):
 def minDegreeEdos(G):
     degrees = [val for (node, val) in G.degree()]
     minDeg = degrees[0]
+    # minDeg = 0
     for d in degrees:
         if d < minDeg:
             minDeg = d
