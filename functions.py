@@ -52,21 +52,23 @@ def _format_axes(ax):
 def isIsomorphic(G):
     copy = G.copy()
     automorphisms = amorphs(copy)
-    return len(automorphisms) > 1
+    if len(automorphisms) == 1:
+        print(automorphisms)
+    else:
+        return len(automorphisms) > 1
 
 
 def amorphs(graph):
     copy = graph.copy()
-    automorphisms = list()
+    automorphisms = set()
     for vertex in copy.nodes():
         new_graph = nx.relabel_nodes(copy, {vertex: index for index, vertex in enumerate(copy.nodes())})
         new_graph.graph['permutation'] = {vertex: index for index, vertex in enumerate(copy.nodes())}
         if nx.is_isomorphic(copy, new_graph):
-
             if new_graph.graph['permutation'] != {vertex: vertex}:
-                if new_graph.nodes() != copy.nodes():
-                    automorphisms.append(new_graph.graph['permutation'])
-    automorphisms = list(automorphisms)
+                new_vertices = set(new_graph.nodes())
+                if new_vertices != copy.nodes():
+                    automorphisms.add(frozenset(new_vertices))
     return automorphisms
 
 
@@ -82,27 +84,36 @@ def getInfo(G):
     print("lambda:" + str(lam))
     isOC = False
     isNS = False
-    isIso = isIsomorphic(G)
-    print("Is Iso", isIso)
+    isIso = True
     if k == lam == minDeg:
         isOC = True
         print("OC:" + str(isOC))
 
-    if lam == minDegree and k >= 2 * (minDeg + 1) / 3:
+    if lam == minDeg and k >= 2 * (minDeg + 1) / 3:
         isNS = True
         if 4 >= minDeg:
             if minDegree != k:
                 isNS = False
         if isIso:
-            print("Is isomporphic:", isIso)
             if k == minDeg:
                 isNS = True
         print("NS:" + str(isNS))
-    print("NS:" + str(isNS))
+    else:
+        print("NS:" + str(isNS))
 
 
 def isOC(G):
     minDeg = minDegree(G)
+    k = nx.node_connectivity(G)
+    lam = nx.edge_connectivity(G)
+    if k == lam == minDeg:
+        return True
+    else:
+        return False
+
+
+def isOCErdos(G):
+    minDeg = minDegreeEdos(G)
     k = nx.node_connectivity(G)
     lam = nx.edge_connectivity(G)
     if k == lam == minDeg:
@@ -132,6 +143,13 @@ def minDegree(G):
             minDeg = d
     return minDeg
 
+def minDegreeEdos(G):
+    degrees = [val for (node, val) in G.degree()]
+    minDeg = degrees[0]
+    for d in degrees:
+        if d < minDeg:
+            minDeg = d
+    return minDeg
 
 def schlegel3Prism():
     g = nx.Graph()
@@ -206,14 +224,13 @@ def calculateLforSymm(G):
     n = nx.number_of_nodes(G)
     minDeg = minDegree(G)
     avg = nx.average_shortest_path_length(G)
-    print(minDeg, avg)
     L = (n - 1) * avg / minDeg
     print("L Symmetric:" + str(L))
     return float(L)
 
 
 def setAllCaps(G):
-    nx.set_edge_attributes(G, 20.0, "capacity")
+    nx.set_edge_attributes(G, 20, "capacity")
 
 
 def calculateL(G):
@@ -257,6 +274,3 @@ def createLayeredGraph(G, H, p=0.1):
                     U.add_edge(g, h, color='red')
 
     return U
-
-
-

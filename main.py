@@ -16,20 +16,20 @@ import LayeredGraph
 # cube = nx.cubical_graph()
 # ico = nx.icosahedral_graph()
 # truncTetra = nx.truncated_tetrahedron_graph()
-# hyperCube = nx.hypercube_graph()
+hyperCube = nx.hypercube_graph(4)
 # Torus = nx.complete_graph(7)
-ring = functions.ring_graph(10, 1)
+# ring = functions.ring_graph(10, 1)
 # prism3 = functions.schlegel3Prism()
 # Antiprism3 = functions.schlegel3Antiprism()
 # Twistedprism3 = functions.sclegel3TwistedPrism()
-# completeN = nx.complete_graph(8)
+completeN = nx.complete_graph(5)
 # hamming = functions.hamming_binary(4)
 
 
 
-G = ring
+G = hyperCube
 # H = prism3
-# functions.setAllCaps(G)
+functions.setAllCaps(G)
 
 
 functions.getInfo(G)
@@ -37,19 +37,19 @@ functions.getInfo(G)
 """"CALCULATING L"""
 # L = float(0)
 # newL = float(0)
-# L = functions.calculateLHamming(G)
+L = functions.calculateLHamming(G)
 # L = functions.calculateLforSymm(G)
 # L = functions.calculateL(G)
-# L = functions.calculateLmax(G)
+L1 = functions.calculateLmax(G)
 
-# functions.remove_rnd_node(G, 0.2)
-# newL = functions.calculateLHamming(G)
+functions.remove_rnd_node(G, 0.2)
+newL = functions.calculateLHamming(G)
 # newL = functions.calculateLforSymm(G)
 # newL = functions.calculateL(G)
-# newL = functions.calculateLmax(G)
-# increasePerc = functions.changePerc(newL, L)
+newL1 = functions.calculateLmax(G)
+increasePerc = functions.changePerc(newL, L)
 
-# print("INCREASE Perc =", increasePerc, "%")
+print("INCREASE Perc =", increasePerc, "%")
 """PART 7 & 8"""
 
 # T = functions.createLayeredGraph(G, H);

@@ -57,7 +57,7 @@ while count > 0:
         # p = math.sqrt(size) / (size - 1)
         G = nx.erdos_renyi_graph(size, p)
         graphER.append(G)
-        if functions.isOC(G):
+        if functions.isOCErdos(G):
             df.loc[currentRow, 'OC'] += 1
         i += 1
 
