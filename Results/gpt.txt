@@ -1,9 +1,0 @@
-In graph theory, L and L max represent different concepts related to the maximum flow problem. L represents the flow value on a specific flow network, while L max represents the maximum possible flow value that can be achieved on that network.
-
-L is the actual flow value that is transmitted through the network, subject to the capacity constraints on the edges and the conservation of flow at the nodes. L can be computed using an algorithm such as the Ford-Fulkerson algorithm or its variants, and it represents the amount of flow that is actually transmitted from the source to the sink.
-
-L max, on the other hand, is the maximum possible flow value that can be achieved on the network, subject to the capacity constraints and the conservation of flow. L max is often computed using the max-flow min-cut theorem, which states that the maximum flow value is equal to the minimum capacity of a cut in the graph, where a cut is a partition of the nodes into two disjoint sets such that the source node is in one set and the sink node is in the other set.
-
-L and L max can be different when the actual flow value is less than the maximum possible flow value. This can happen when there are bottlenecks in the network, such as edges that have low capacity or nodes that have low degree. In such cases, the actual flow value may be limited by the capacity of the bottlenecks, and may be less than the maximum possible flow value.
-
-Therefore, L and L max are different when the actual flow value is less than the maximum possible flow value, and the difference between them represents the potential for improvement in the network, such as by increasing the capacity of the bottlenecks or by adding new edges or nodes to the network.
