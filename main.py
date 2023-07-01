@@ -10,25 +10,30 @@ import functions
 import LayeredGraph
 
 """"PART 3 ,5, 6"""
-# erdos = nx.erdos_renyi_graph(30, p=0.1)
+# erdos = nx.erdos_renyi_graph(30, p=0.3)
 # tetra = nx.tetrahedral_graph()
 # octa = nx.octahedral_graph()
-cube = nx.cubical_graph()
+# cube = nx.cubical_graph()
 # ico = nx.icosahedral_graph()
 # truncTetra = nx.truncated_tetrahedron_graph()
 # hyperCube = nx.hypercube_graph()
 # Torus = nx.complete_graph(7)
-# ring = functions.ring_graph(10, 1)
-prism3 = functions.schlegel3Prism()
+ring = functions.ring_graph(10, 1)
+# prism3 = functions.schlegel3Prism()
 # Antiprism3 = functions.schlegel3Antiprism()
 # Twistedprism3 = functions.sclegel3TwistedPrism()
-completeN = nx.complete_graph(8)
-hamming = functions.hamming_binary(4)
-# functions.getInfo()
+# completeN = nx.complete_graph(8)
+# hamming = functions.hamming_binary(4)
 
-G = cube
-H = prism3
-functions.setAllCaps(G)
+
+
+G = ring
+# H = prism3
+# functions.setAllCaps(G)
+
+
+functions.getInfo(G)
+
 """"CALCULATING L"""
 # L = float(0)
 # newL = float(0)
@@ -47,8 +52,8 @@ functions.setAllCaps(G)
 # print("INCREASE Perc =", increasePerc, "%")
 """PART 7 & 8"""
 
-T = functions.createLayeredGraph(G, H);
-functions.show3dSpring(T)
+# T = functions.createLayeredGraph(G, H);
+# functions.show3dSpring(T)
 
 
 """"SHOWING THE GRAPHS"""

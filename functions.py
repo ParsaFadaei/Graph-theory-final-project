@@ -1,3 +1,5 @@
+import sys
+
 import matplotlib
 import networkx as nx
 import random
@@ -27,8 +29,7 @@ def show3dSpring(G):
 
     # Plot the edges
     for vizedge in edge_xyz:
-        # ax.plot(*vizedge.T, color="tab:gray")
-        ax.plot(*vizedge.T)
+        ax.plot(*vizedge.T, color="tab:gray")
 
     _format_axes(ax)
     fig.tight_layout()
@@ -48,8 +49,25 @@ def _format_axes(ax):
     ax.set_zlabel("z")
 
 
-def isIsomorphic(G1, G2):
-    return nx.vf2pp_is_isomorphic(G1, G2, node_label=None)
+def isIsomorphic(G):
+    copy = G.copy()
+    automorphisms = amorphs(copy)
+    return len(automorphisms) > 1
+
+
+def amorphs(graph):
+    copy = graph.copy()
+    automorphisms = list()
+    for vertex in copy.nodes():
+        new_graph = nx.relabel_nodes(copy, {vertex: index for index, vertex in enumerate(copy.nodes())})
+        new_graph.graph['permutation'] = {vertex: index for index, vertex in enumerate(copy.nodes())}
+        if nx.is_isomorphic(copy, new_graph):
+
+            if new_graph.graph['permutation'] != {vertex: vertex}:
+                if new_graph.nodes() != copy.nodes():
+                    automorphisms.append(new_graph.graph['permutation'])
+    automorphisms = list(automorphisms)
+    return automorphisms
 
 
 def getInfo(G):
@@ -64,6 +82,8 @@ def getInfo(G):
     print("lambda:" + str(lam))
     isOC = False
     isNS = False
+    isIso = isIsomorphic(G)
+    print("Is Iso", isIso)
     if k == lam == minDeg:
         isOC = True
         print("OC:" + str(isOC))
@@ -73,17 +93,18 @@ def getInfo(G):
         if 4 >= minDeg:
             if minDegree != k:
                 isNS = False
-        if isIsomorphic(G, G):
+        if isIso:
+            print("Is isomporphic:", isIso)
             if k == minDeg:
                 isNS = True
         print("NS:" + str(isNS))
+    print("NS:" + str(isNS))
 
 
 def isOC(G):
     minDeg = minDegree(G)
     k = nx.node_connectivity(G)
     lam = nx.edge_connectivity(G)
-    print(minDeg, k, lam)
     if k == lam == minDeg:
         return True
     else:
@@ -104,7 +125,11 @@ def isNS(G):
 
 
 def minDegree(G):
-    minDeg = min([val for (node, val) in G.degree()])
+    minDeg = sys.maxsize
+    degrees = [val for (node, val) in G.degree()]
+    for d in degrees:
+        if d < minDeg:
+            minDeg = d
     return minDeg
 
 
@@ -181,6 +206,7 @@ def calculateLforSymm(G):
     n = nx.number_of_nodes(G)
     minDeg = minDegree(G)
     avg = nx.average_shortest_path_length(G)
+    print(minDeg, avg)
     L = (n - 1) * avg / minDeg
     print("L Symmetric:" + str(L))
     return float(L)
@@ -231,3 +257,6 @@ def createLayeredGraph(G, H, p=0.1):
                     U.add_edge(g, h, color='red')
 
     return U
+
+
+
