@@ -9,7 +9,7 @@ import seaborn as sns
 
 import functions
 
-simulationCount = 500
+simulationCount = 100
 count = 24
 currentRow = 0
 data = {
@@ -36,9 +36,12 @@ data = {
     29: 0,
     30: 0,
     40: 0,
-    50: 0,
+    500: 0,
 }
 df = pd.DataFrame(list(data.items()), columns=['Size', 'OC'])
+df['OC %'] = 0
+df['NS'] = 0
+df['NS %']= 0
 # df['Percent'] = ['10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%']
 graphSizes = list(data.keys())
 while count > 0:
@@ -55,19 +58,26 @@ while count > 0:
         graphER.append(nx.erdos_renyi_graph(size, p))
         i += 1
 
+    # for g in graphER:
+    #     if functions.isOC(g):
+    #         df.loc[currentRow, 'OC'] += 1
+
     for g in graphER:
-        if functions.isOC(g):
-            df.loc[currentRow, 'OC'] += 1
+        if nx.is_connected(g):
+            if functions.isNS(g):
+                df.loc[currentRow, 'NS'] += 1
 
     currentRow += 1
     count -= 1
 
-df['OC %'] = df.apply(lambda row: row.OC / simulationCount * 100, axis=1)
+# df['OC %'] = df.apply(lambda row: row.OC / simulationCount * 100, axis=1)
+df['NS %'] = df.apply(lambda row: row.NS / simulationCount * 100, axis=1)
 print(df)
 # df.plot(kind='bar', x='Size', y='OC %')
 """SHOW USING SEABORN"""
 sns.regplot(x=df['Size'], y=df['OC %'])
 plt.show()
+
 """SHOW USING MATPLOTLIB"""
 # b, m = polyfit(df['Size'], df['OC %'], 1)
 # plt.scatter(df['Size'], df['OC %'], c='r')

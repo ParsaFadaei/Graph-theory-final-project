@@ -83,6 +83,7 @@ def isOC(G):
     minDeg = minDegree(G)
     k = nx.node_connectivity(G)
     lam = nx.edge_connectivity(G)
+    print(minDeg, k, lam)
     if k == lam == minDeg:
         return True
     else:
@@ -99,16 +100,11 @@ def isNS(G):
         if 4 >= minDeg:
             if minDegree != k:
                 isNS = False
-
     return isNS
 
 
 def minDegree(G):
-    minDeg = 10000
-    degrees = [val for (node, val) in G.degree()]
-    for d in degrees:
-        if d < minDeg:
-            minDeg = d
+    minDeg = min([val for (node, val) in G.degree()])
     return minDeg
 
 
