@@ -127,18 +127,18 @@ class LayeredNetworkGraph(object):
                                   zorder=100)
 
 
-# if __name__ == '__main__':
-#     # define graphs
-#     n = 5
-#     g = nx.erdos_renyi_graph(4 * n, p=0.1)
-#     h = nx.erdos_renyi_graph(3 * n, p=0.2)
-#     i = nx.erdos_renyi_graph(2 * n, p=0.4)
-#
-#     node_labels = {nn: str(nn) for nn in range(4 * n)}
-#
-#     # initialise figure and plot
-#     fig = plt.figure()
-#     ax = fig.add_subplot(111, projection='3d')
-#     LayeredNetworkGraph([g, h, i], node_labels=node_labels, ax=ax, layout=nx.spring_layout)
-#     ax.set_axis_off()
-#     plt.show()
+if __name__ == '__main__':
+    # define graphs
+    n = 5
+    g = nx.erdos_renyi_graph(4 * n, p=0.1)
+    h = nx.erdos_renyi_graph(3 * n, p=0.2)
+    i = nx.erdos_renyi_graph(2 * n, p=0.4)
+
+    node_labels = {nn: str(nn) for nn in range(4 * n)}
+
+    # initialise figure and plot
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    LayeredNetworkGraph([g, h, i], node_labels=node_labels, ax=ax, layout=nx.spring_layout)
+    ax.set_axis_off()
+    plt.show()

@@ -115,7 +115,7 @@ def isOC(G):
 
 
 def isOCErdos(G):
-    minDeg = minDegreeEdos(G)
+    minDeg = minDegree(G)
     k = nx.node_connectivity(G)
     lam = nx.edge_connectivity(G)
     if k == lam == minDeg:
@@ -235,27 +235,6 @@ def calculateLforSymm(G):
 def setAllCaps(G):
     nx.set_edge_attributes(G, 20, "capacity")
 
-
-def calculateL(G):
-    source = min(G.nodes())
-    sink = max(G.nodes())
-    # Compute the maximum flow value using the Edmonds-Karp algorithm
-    flow_value = nx.maximum_flow_value(G, source, sink)
-    print("L value (networkx): " + str(flow_value))
-    return float(flow_value)
-
-
-def calculateLmax(G):
-    source = min(G.nodes())
-    sink = max(G.nodes())
-    # Edmonds-Karp algorithm
-    flow_value = nx.maximum_flow_value(G, source, sink)
-    # Stoer-Wagner algorithm
-    cut_value, partition = nx.stoer_wagner(G)
-    # Compute the maximum flow value using the max-flow min-cut theorem
-    max_flow_value = cut_value + flow_value
-    print("Maximum flow value (mincut theorem): ", max_flow_value)
-    return float(max_flow_value)
 
 
 def remove_rnd_node(G, p=0.2):
