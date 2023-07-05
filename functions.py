@@ -104,9 +104,10 @@ def getInfo(G):
         print("NS:" + str(isNS))
 
 
-def isOC(G):
+def isOC(G, k=0):
     minDeg = minDegree(G)
-    k = nx.node_connectivity(G)
+    if k == 0:
+        k = nx.node_connectivity(G)
     lam = nx.edge_connectivity(G)
     if k == lam == minDeg:
         return True
@@ -114,21 +115,8 @@ def isOC(G):
         return False
 
 
-def isOCErdos(G):
-    minDeg = minDegreeEdos(G)
-    k = nx.node_connectivity(G)
-    lam = nx.edge_connectivity(G)
-    if k == lam == minDeg:
-        return True
-    else:
-        return False
-
-
-def isNS(G):
+def isNS(k, lam, minDeg):
     isNS = False
-    minDeg = minDegree(G)
-    k = nx.node_connectivity(G)
-    lam = nx.edge_connectivity(G)
     if lam == minDegree and k >= 2 * (minDeg + 1) / 3:
         isNS = True
         if 4 >= minDeg:
@@ -145,6 +133,7 @@ def minDegree(G):
             minDeg = d
     return minDeg
 
+
 def minDegreeEdos(G):
     degrees = [val for (node, val) in G.degree()]
     minDeg = degrees[0]
@@ -153,6 +142,7 @@ def minDegreeEdos(G):
         if d < minDeg:
             minDeg = d
     return minDeg
+
 
 def schlegel3Prism():
     g = nx.Graph()
@@ -268,7 +258,7 @@ def changePerc(new_value, old_value):
     return ((new_value - old_value) / abs(old_value)) * 100
 
 
-def createLayeredGraph(G, H, p=0.1):
+def createLayeredGraph(G, H, p=0.5):
     U = nx.disjoint_union(G, H)
     for i, g in enumerate(U.nodes()):
         for j, h in enumerate(U.nodes(), len(G)):

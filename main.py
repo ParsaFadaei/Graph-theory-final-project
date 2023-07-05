@@ -24,7 +24,7 @@ erdos = nx.erdos_renyi_graph(100, p=0.3)
 # Antiprism3 = functions.schlegel3Antiprism()
 # Twistedprism3 = functions.sclegel3TwistedPrism()
 
-hamming = functions.hamming_binary(4)
+# hamming = functions.hamming_binary(4)
 
 # Wats = nx.watts_strogatz_graph(1000, 3, 0.3)
 
@@ -52,10 +52,6 @@ newL = float(0)
 # increasePerc = functions.changePerc(newL, L)
 #
 # print("INCREASE Perc =", increasePerc, "%")
-"""PART 7 & 8"""
-
-# T = functions.createLayeredGraph(G, H);
-# functions.show3dSpring(T)
 
 
 """"SHOWING THE GRAPHS"""
