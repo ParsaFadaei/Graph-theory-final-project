@@ -9,7 +9,7 @@ import seaborn as sns
 
 import functions
 
-simulationCount = 1000
+simulationCount = 500
 count = 24
 currentRow = 0
 data = {

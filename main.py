@@ -41,14 +41,12 @@ L = float(0)
 newL = float(0)
 # L = functions.calculateLHamming(G)
 # L = functions.calculateLforSymm(G)
-# L = functions.calculateL(G)
-# L1 = functions.calculateLmax(G)
+
 #
 # functions.remove_rnd_node(G, 0.2)
 # newL = functions.calculateLHamming(G)
 # newL = functions.calculateLforSymm(G)
-# newL = functions.calculateL(G)
-# newL1 = functions.calculateLmax(G)
+
 # increasePerc = functions.changePerc(newL, L)
 #
 # print("INCREASE Perc =", increasePerc, "%")
